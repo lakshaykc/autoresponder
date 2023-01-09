@@ -16,7 +16,7 @@ nltk.download("punkt")
 ds = load_from_disk("data/chat_history")
 
 model_id = "google/flan-t5-large"
-model_dir = "models/flan-t5-large-10ep"
+model_dir = "models/flan-t5-large-llr"
 
 # Metric
 metric = evaluate.load("rouge")
@@ -65,8 +65,9 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=4,
     predict_with_generate=True,
     fp16=False,
-    learning_rate=5e-5,
-    num_train_epochs=10,
+    # Learning rate from this paper: https://arxiv.org/pdf/2205.07387
+    learning_rate=8e-6,
+    num_train_epochs=12,
     # logging & evaluation strategies
     logging_dir=f"{model_dir}/logs",
     logging_strategy="steps",

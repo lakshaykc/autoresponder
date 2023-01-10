@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  ar-inference:
+    container_name: ar-inference
+    build:
+      context: .
+    volumes:
+      - ..:/app

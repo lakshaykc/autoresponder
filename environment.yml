@@ -27,3 +27,5 @@ dependencies:
       - diskcache==5.4.0
       - gradio==3.16.1
       - streamlit==1.16.0
+      - deepspeed==0.7.7
+      - accelerate==0.15.0

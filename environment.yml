@@ -25,3 +25,5 @@ dependencies:
       - black
       - openai==0.25.0
       - diskcache==5.4.0
+      - gradio==3.16.1
+      - streamlit==1.16.0

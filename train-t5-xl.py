@@ -61,21 +61,6 @@ def compute_metrics(eval_preds):
     return result
 
 
-ds_config = {
-    "zero_optimization": {
-        "stage": 2,
-        "offload_optimizer": {"device": "cpu", "pin_memory": True},
-        "allgather_partitions": True,
-        "allgather_bucket_size": 2e8,
-        "reduce_scatter": True,
-        "reduce_bucket_size": 2e8,
-        "overlap_comm": True,
-        "contiguous_gradients": True,
-    },
-    "train_micro_batch_size_per_gpu": training_batch_size,
-}
-
-
 training_args = Seq2SeqTrainingArguments(
     output_dir=model_dir,
     per_device_train_batch_size=training_batch_size,
@@ -83,20 +68,19 @@ training_args = Seq2SeqTrainingArguments(
     predict_with_generate=True,
     fp16=False,
     # Learning rate recommended by https://huggingface.co/docs/transformers/model_doc/t5
-    learning_rate=3e-4,
+    learning_rate=1e-4,
     num_train_epochs=5,
     # logging & evaluation strategies
     logging_dir=f"{model_dir}/logs",
     logging_strategy="steps",
-    logging_steps=1000,
+    logging_steps=2000,
     evaluation_strategy="steps",
     save_strategy="steps",
-    save_steps=1000,
-    save_total_limit=5,
+    save_steps=2000,
+    save_total_limit=3,
     load_best_model_at_end=True,
     metric_for_best_model="rouge1",
     report_to="tensorboard",
-    deepspeed=ds_config,
 )
 
 trainer = Seq2SeqTrainer(
@@ -108,6 +92,6 @@ trainer = Seq2SeqTrainer(
 )
 
 # https://discuss.huggingface.co/t/how-to-evaluate-before-first-training-step/18838
-# trainer.evaluate()
+trainer.evaluate()
 
 trainer.train()

@@ -1,4 +1,5 @@
 .env
 data/
 models/
+logs/
 .ipynb_checkpoints/

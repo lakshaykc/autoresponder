@@ -16,7 +16,7 @@ nltk.download("punkt")
 ds = load_from_disk("data/chat_history")
 
 model_id = "google/flan-t5-xl"
-model_dir = "models/flan-t5-xl"
+model_dir = "models/t5-xl-20ep"
 
 # Metric
 metric = evaluate.load("rouge")
@@ -69,7 +69,7 @@ training_args = Seq2SeqTrainingArguments(
     fp16=False,
     # Learning rate recommended by https://huggingface.co/docs/transformers/model_doc/t5
     learning_rate=1e-4,
-    num_train_epochs=5,
+    num_train_epochs=20,
     # logging & evaluation strategies
     logging_dir=f"{model_dir}/logs",
     logging_strategy="steps",

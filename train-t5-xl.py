@@ -69,7 +69,7 @@ training_args = Seq2SeqTrainingArguments(
     fp16=False,
     # Learning rate recommended by https://huggingface.co/docs/transformers/model_doc/t5
     learning_rate=1e-4,
-    num_train_epochs=20,
+    num_train_epochs=5,
     # logging & evaluation strategies
     logging_dir=f"{model_dir}/logs",
     logging_strategy="steps",

@@ -1,3 +1,5 @@
+#! /home/ubuntu/miniconda/envs/autoresponder/bin/streamlit run
+
 import re
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
@@ -7,7 +9,7 @@ import streamlit as st
 @st.cache(allow_output_mutation=True)
 def get_tokenizer():
     print("Loading tokenizer..")
-    return AutoTokenizer.from_pretrained("google/flan-t5-large")
+    return AutoTokenizer.from_pretrained("google/flan-t5-xl")
 
 
 @st.cache(allow_output_mutation=True)
@@ -15,7 +17,8 @@ def get_model():
     print("Loading model..")
 
     return AutoModelForSeq2SeqLM.from_pretrained(
-        f"models/flan-t5-large-10ep/checkpoint-42000"
+        # "google/flan-t5-xl"
+        f"models/flan-t5-xl/checkpoint-38000"
     ).to("cuda")
 
 
@@ -87,6 +90,9 @@ Sorry!!!!"""
 def inference_fn(history, current_prefix):
     prompt = create_prompt(history)
     responses = get_responses(prompt, output_prefix=current_prefix.strip())
+
+    # Dedupe responses
+    responses = list(set(responses))
 
     print(f"Finished for {current_prefix}")
     return "".join([f" - {response}\n" for response in responses])
